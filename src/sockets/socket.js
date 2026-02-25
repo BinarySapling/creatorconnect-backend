@@ -1,10 +1,15 @@
 import jwt from "jsonwebtoken";
+import { createAdapter } from "@socket.io/redis-adapter";
+import { pubClient, subClient } from "../config/redis.js";
 import { sendMessageService } from "../services/chatService.js";
 
 // Map userId -> socket.id for targeted delivery
 const onlineUsers = new Map();
 
 export const registerSocketHandlers = (io) => {
+  // Attach Redis adapter for horizontal scaling
+  io.adapter(createAdapter(pubClient, subClient));
+
   // Auth middleware for socket handshake
   io.use((socket, next) => {
     try {

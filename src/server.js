@@ -7,16 +7,18 @@ import { Server } from "socket.io";
 import app from "./app.js";
 import connectDB from "./config/db.js";
 import { registerSocketHandlers } from "./sockets/socket.js";
+import { connectRedis } from "./config/redis.js";
 
 const PORT = process.env.PORT || 3000;
 
 connectDB();
+connectRedis();
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
     methods: ["GET", "POST"],
   },

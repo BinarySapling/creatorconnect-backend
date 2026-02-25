@@ -2,6 +2,7 @@ import {
   initiateSignupService,
   verifySignupOtpService,
   loginService,
+  getMeService,
 } from "../services/authServices.js";
 import User from "../models/User.js";
 
@@ -111,5 +112,20 @@ export const searchUsers = async (req, res) => {
     res.json(users);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+export const getMe = async (req, res) => {
+  try {
+    const user = await getMeService(req.user.id);
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

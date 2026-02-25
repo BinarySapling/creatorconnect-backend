@@ -79,6 +79,7 @@ export const verifySignupOtpService = async ({
     id: user._id,
     name: user.name,
     email: user.email,
+    tokens: user.token,
   };
 };
 
@@ -112,6 +113,21 @@ export const loginService = async (email, password) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      tokens: user.token,
     },
+  };
+};
+
+export const getMeService = async (userId) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    tokens: user.token,
   };
 };

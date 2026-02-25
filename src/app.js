@@ -6,12 +6,14 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
 import assetRoutes from "./routes/assertRoutes.js";
 import chatRoutes from "./routes/ChatRoutes.js";
+import planRoutes from "./routes/planRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 
 const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "http://127.0.0.1:5174"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -32,5 +34,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/assets", assetRoutes);
 app.use("/chat", chatRoutes);
+app.use("/plans", planRoutes);
+app.use("/payment", paymentRoutes);
 
 export default app;
